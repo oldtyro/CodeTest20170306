@@ -1,0 +1,43 @@
+﻿@using testAsp.Models;
+
+@{
+    Layout = null;
+    ViewBag.Title = "getMerchantList";
+}
+<head>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="Scripts/angular.js"></script>
+    <script src="~/Scripts/merchant.js"></script>
+    <link href="/Content/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Logo</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Status</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Merchant m in ViewBag.Merchants)
+                {
+                    <tr>
+                        <td><img src="@m.logo.path_to_file" style="width:35px;height:35px" /></td>
+                        <td>@m.display_name</td>
+                        <td>@m.email</td>
+                        <td>@m.phone</td>
+                        <td>@m.status</td>
+                        <td>@m.address.address1 @m.address.address2 &nbsp; @m.address.suburb &nbsp; @m.address.postcode &nbsp; @m.address.state &nbsp; @m.address.country</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+  </div>
+</body>
+

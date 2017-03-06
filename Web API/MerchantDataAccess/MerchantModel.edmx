@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MerchantModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="merchantid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="country" Type="nvarchar" MaxLength="30" />
+          <Property Name="state" Type="nvarchar" MaxLength="30" />
+          <Property Name="postcode" Type="nvarchar" MaxLength="10" />
+          <Property Name="suburb" Type="nvarchar" MaxLength="30" />
+          <Property Name="address1" Type="nvarchar" MaxLength="100" />
+          <Property Name="address2" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Logo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="merchantid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="date_created" Type="datetime" />
+          <Property Name="status" Type="int" Nullable="false" />
+          <Property Name="path_to_file" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Merchant">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" />
+          <Property Name="phone" Type="nvarchar" MaxLength="30" />
+          <Property Name="display_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="registered_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="v" Type="int" Nullable="false" />
+          <Property Name="date_modified" Type="datetime" />
+          <Property Name="date_created" Type="datetime" />
+          <Property Name="status" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Address_Merchant">
+          <End Role="Merchant" Type="Self.Merchant" Multiplicity="1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Merchant">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="merchantid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Logo_Merchant">
+          <End Role="Merchant" Type="Self.Merchant" Multiplicity="1" />
+          <End Role="Logo" Type="Self.Logo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Merchant">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Logo">
+              <PropertyRef Name="merchantid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MerchantModelStoreContainer">
+          <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Logo" EntityType="Self.Logo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Merchant" EntityType="Self.Merchant" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Address_Merchant" Association="Self.FK_Address_Merchant">
+            <End Role="Merchant" EntitySet="Merchant" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Logo_Merchant" Association="Self.FK_Logo_Merchant">
+            <End Role="Merchant" EntitySet="Merchant" />
+            <End Role="Logo" EntitySet="Logo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MerchantModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MerchantEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Addresses" EntityType="MerchantModel.Address" />
+          <EntitySet Name="Logoes" EntityType="MerchantModel.Logo" />
+          <EntitySet Name="Merchants" EntityType="MerchantModel.Merchant" />
+          <AssociationSet Name="FK_Address_Merchant" Association="MerchantModel.FK_Address_Merchant">
+            <End Role="Merchant" EntitySet="Merchants" />
+            <End Role="Address" EntitySet="Addresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Logo_Merchant" Association="MerchantModel.FK_Logo_Merchant">
+            <End Role="Merchant" EntitySet="Merchants" />
+            <End Role="Logo" EntitySet="Logoes" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Guid" Nullable="false" />
+          <Property Name="merchantid" Type="Guid" Nullable="false" />
+          <Property Name="country" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="state" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="postcode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="suburb" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="address1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="address2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Merchant" Relationship="MerchantModel.FK_Address_Merchant" FromRole="Address" ToRole="Merchant" />
+        </EntityType>
+        <EntityType Name="Logo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Guid" Nullable="false" />
+          <Property Name="merchantid" Type="Guid" Nullable="false" />
+          <Property Name="date_created" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="Int32" Nullable="false" />
+          <Property Name="path_to_file" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Merchant" Relationship="MerchantModel.FK_Logo_Merchant" FromRole="Logo" ToRole="Merchant" />
+        </EntityType>
+        <EntityType Name="Merchant">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Guid" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="display_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="registered_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="v" Type="Int32" Nullable="false" />
+          <Property Name="date_modified" Type="DateTime" Precision="3" />
+          <Property Name="date_created" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Addresses" Relationship="MerchantModel.FK_Address_Merchant" FromRole="Merchant" ToRole="Address" />
+          <NavigationProperty Name="Logoes" Relationship="MerchantModel.FK_Logo_Merchant" FromRole="Merchant" ToRole="Logo" />
+        </EntityType>
+        <Association Name="FK_Address_Merchant">
+          <End Type="MerchantModel.Merchant" Role="Merchant" Multiplicity="1" />
+          <End Type="MerchantModel.Address" Role="Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Merchant">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="merchantid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Logo_Merchant">
+          <End Type="MerchantModel.Merchant" Role="Merchant" Multiplicity="1" />
+          <End Type="MerchantModel.Logo" Role="Logo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Merchant">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Logo">
+              <PropertyRef Name="merchantid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MerchantModelStoreContainer" CdmEntityContainer="MerchantEntities">
+          <EntitySetMapping Name="Addresses">
+            <EntityTypeMapping TypeName="MerchantModel.Address">
+              <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="address2" ColumnName="address2" />
+                <ScalarProperty Name="address1" ColumnName="address1" />
+                <ScalarProperty Name="suburb" ColumnName="suburb" />
+                <ScalarProperty Name="postcode" ColumnName="postcode" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="country" ColumnName="country" />
+                <ScalarProperty Name="merchantid" ColumnName="merchantid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Logoes">
+            <EntityTypeMapping TypeName="MerchantModel.Logo">
+              <MappingFragment StoreEntitySet="Logo">
+                <ScalarProperty Name="path_to_file" ColumnName="path_to_file" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="date_created" ColumnName="date_created" />
+                <ScalarProperty Name="merchantid" ColumnName="merchantid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Merchants">
+            <EntityTypeMapping TypeName="MerchantModel.Merchant">
+              <MappingFragment StoreEntitySet="Merchant">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="date_created" ColumnName="date_created" />
+                <ScalarProperty Name="date_modified" ColumnName="date_modified" />
+                <ScalarProperty Name="v" ColumnName="v" />
+                <ScalarProperty Name="registered_name" ColumnName="registered_name" />
+                <ScalarProperty Name="display_name" ColumnName="display_name" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

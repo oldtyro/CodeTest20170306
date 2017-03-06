@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+	<meta charset="utf-8" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="Scripts/angular.js"></script>
+    <script src="Scripts/merchant.js"></script>
+    <link href="/Content/bootstrap.min.css" rel="stylesheet">
+</head>
+<body ng-app="merchantModule">
+    <div ng-controller="merchantController" ng-hide="!hide">
+        {{error}}
+    </div>
+    <div ng-controller="merchantController" ng-hide="hide">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Logo</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Status</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="m in merchants">
+                    <td><img src="{{m.logo.path_to_file}}" style="width:35px;height:35px" /></td>
+                    <td>{{m.display_name}}</td>
+                    <td>{{m.email}}</td>
+                    <td>{{m.phone}}</td>
+                    <td>{{m.status}}</td>
+                    <td>{{m.address.address1 + " "+ m.address.address2 + " " + m.address.suburb + " " + m.address.postcode + " " + m.address.state + " " + m.address.country}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table">
+            <tr>
+                <td>page size:<select ng-model="page_size" ng-options="x for x in page_sizes" ng-change="reloadDataAfterChangeSize()"></select></td>
+                <td>page number:<select ng-model="page_number" ng-options="x for x in page_numbers" ng-change="reloadDataAfterChangeNumber()"></select></td>
+                <td>total pages:{{total_pages}}</td>
+                <td>total records:{{total_records}}</td>
+            </tr>
+        </table>
+</div>
+</body>
+</html>
